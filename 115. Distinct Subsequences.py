@@ -1,18 +1,10 @@
+
 class Solution:
-    def recursiveWithoutMemoization(self, s: str, t: str, s_ind: int, t_ind: int) -> int:
-        if t_ind == len(t):
-            return 1
-        if s_ind == len(s):
-            return 0
-
-        take, notTake = 0, 0
-
-        if s[s_ind] == t[t_ind]:
-            take = self.recursiveWithoutMemoization(s, t, s_ind + 1, t_ind + 1)
-
-        notTake = self.recursiveWithoutMemoization(s, t, s_ind + 1, t_ind)
-
-        return take + notTake
-
     def numDistinct(self, s: str, t: str) -> int:
-        return self.recursiveWithoutMemoization(s, t, 0, 0)
+        m, n = len(s), len(t)
+        dp = [1] + [0]*n
+        for i in range(1 , m + 1):
+            for j in range( min(i,n) , 0, - 1):
+                if s[i - 1] == t[j - 1]:
+                    dp[j] += dp[j - 1]
+        return dp[n]
